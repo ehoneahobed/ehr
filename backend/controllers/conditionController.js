@@ -1,4 +1,4 @@
-const Condition = require('../models/Condition');
+const Condition = require('../models/conditionModel');
 
 // Create a new condition
 const createCondition = async (req, res) => {
