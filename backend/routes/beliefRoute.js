@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
-
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middlewares/auth');
 const beliefController = require('../controllers/beliefController');
 
-// :userId/beliefs
+// Get all beliefs for a specific user
+router.get('/', verifyTokenAndAuthorization, beliefController.getAllBeliefs);
 
-router.get('/', beliefController.getAllBeliefs);
-router.get('/:beliefId', beliefController.getBelief);
-router.post('/', beliefController.createBelief);
-router.put('/:beliefId', beliefController.updateBelief);
-router.delete('/:beliefId', beliefController.deleteBelief);
+// get belief
+router.get('/:beliefId', verifyTokenAndAuthorization, beliefController.getBelief);
+// create new belief
+router.post('/', verifyTokenAndAuthorization, beliefController.createBelief);
+// update belief
+router.put('/:beliefId', verifyTokenAndAuthorization, beliefController.updateBelief);
+
+// delete belief
+router.delete('/:beliefId', verifyTokenAndAuthorization, beliefController.deleteBelief);
 
 module.exports = router;

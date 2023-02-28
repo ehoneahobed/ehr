@@ -10,19 +10,11 @@ const allergySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  reaction: {
+  description: {
     type: String,
     required: true
-  },
-  severity: {
-    type: String,
-    required: true
-  },
-  created: {
-    type: Date,
-    default: Date.now
   }
-});
+}, { timestamps: true });
 
 const Allergy = mongoose.model('Allergy', allergySchema);
 

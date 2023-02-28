@@ -5,7 +5,7 @@ const User = require('../models/userModel');
 // Create user
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ email });
@@ -23,6 +23,7 @@ exports.createUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role
     });
 
     // Save user to database
@@ -69,7 +70,7 @@ exports.getUserProfile = async (req, res) => {
 
 exports.updateUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.user.id);
     if (user) {
       user.email = req.body.email || user.email;
       user.password = req.body.password || user.password;
@@ -84,7 +85,7 @@ exports.updateUserProfile = async (req, res) => {
       user.beliefs = req.body.beliefs || user.beliefs;
       user.healthData = req.body.healthData || user.healthData;
 
-      const updatedUser = await user.save().select('-password');
+      const updatedUser = await user.save();
       res.json(updatedUser);
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -167,6 +168,7 @@ exports.loginUser = async (req, res) => {
     );
 
     res.status(200).json({ token, role: user.role });
+    // res.status(200).json(user.role);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

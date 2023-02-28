@@ -9,6 +9,7 @@ const conditionSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true
   },
   diagnosis_date: {
     type: Date

@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
 
     if(authHeader) {
         const token = authHeader.split(" ")[1];
-        jwt.verify(token, process.env.JWT_SECRET_KEY, (error, user) => {
+        jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
             if (error) {
                 res.status(403).json("Token is not valid");
             }
@@ -23,29 +23,29 @@ const verifyToken = (req, res, next) => {
 
 // verify the user and see if they have the right authority to perform a given action
 const verifyTokenAndAuthorization = (req, res, next) => {
-    // verifyToken(req, res, () => {
-    //     if (req.user.id === req.params.id || req.user.isAdmin) {
-    //         next();
-    //     }
-    //     else {
-    //         res.status(403).json("You don't have the requisite permissions!");
-    //     }
-    // })
+    verifyToken(req, res, () => {
+        if (req.user.id === req.params.id || req.user.role === 'admin') {
+          next();
+        } else {
+          res.status(403).json("You don't have the requisite permissions!");
+        }
+      })
 }
 
 
 // verify if the action is being taken by an Admin
 const verifyTokenAndAdmin = (req, res, next) => {
-    // verifyToken(req, res, () => {
-    //     if (req.user.isAdmin) {
-    //         next();
-    //     }
-    //     else {
-    //         res.status(403).json('You are not allowed to do that');
-    //     }
-    // })
+    verifyToken(req, res, () => {
+        if (req.user.role === 'admin') {
+            next();
+        }
+        else {
+            res.status(403).json('You are not allowed to do that');
+        }
+    })
 }
 
-// module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin }
 
-module.exports = { verifyToken }
+module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin }
+
+// module.exports = { verifyToken }

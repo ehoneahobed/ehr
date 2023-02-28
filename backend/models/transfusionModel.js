@@ -17,7 +17,7 @@ const transfusionSchema = new mongoose.Schema(
       type: String
     },
     volume: {
-      type: Number
+      type: String
     },
     transfusion_reason: {
       type: String

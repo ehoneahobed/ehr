@@ -1,17 +1,26 @@
 const Condition = require('../models/conditionModel');
+const User = require('../models/userModel');
 
 // Create a new condition
 const createCondition = async (req, res) => {
-  const { userId } = req.params;
-  const { name, description, treatmentStatus } = req.body;
+  const userId  = req.user.id;
+  const { name, treatment_status, diagnosis_date } = req.body;
 
   try {
     const condition = await Condition.create({
       user: userId,
       name,
-      description,
-      treatmentStatus
+      treatment_status,
+      diagnosis_date
     });
+
+    // once condition is created, let's add ID to the user profile
+    const user = await User.findById(req.user.id);
+    user.healthConditions.push(condition._id);
+
+    await user.save();
+
+
     res.status(201).json({ success: true, data: condition });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -20,7 +29,7 @@ const createCondition = async (req, res) => {
 
 // Get all conditions for a user
 const getAllConditions = async (req, res) => {
-  const { userId } = req.params;
+  const userId  = req.user.id;
 
   try {
     const conditions = await Condition.find({ user: userId });
@@ -32,7 +41,8 @@ const getAllConditions = async (req, res) => {
 
 // Get a single condition for a user
 const getConditionById = async (req, res) => {
-  const { userId, conditionId } = req.params;
+  const userId = req.user.id;
+  const { conditionId } = req.params;
 
   try {
     const condition = await Condition.findOne({ _id: conditionId, user: userId });
@@ -47,8 +57,9 @@ const getConditionById = async (req, res) => {
 
 // Update a condition
 const updateCondition = async (req, res) => {
-  const { userId, conditionId } = req.params;
-  const { name, description, treatmentStatus } = req.body;
+  const userId = req.user.id;
+  const { conditionId } = req.params;
+  const { name, treatment_status, diagnosis_date } = req.body;
 
   try {
     let condition = await Condition.findOne({ _id: conditionId, user: userId });
@@ -56,8 +67,8 @@ const updateCondition = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Condition not found' });
     }
     condition.name = name || condition.name;
-    condition.description = description || condition.description;
-    condition.treatmentStatus = treatmentStatus || condition.treatmentStatus;
+    condition.diagnosis_date = diagnosis_date || condition.diagnosis_date;
+    condition.treatment_status = treatment_status || condition.treatment_status;
     await condition.save();
     res.status(200).json({ success: true, data: condition });
   } catch (error) {
@@ -67,7 +78,8 @@ const updateCondition = async (req, res) => {
 
 // Delete a condition
 const deleteCondition = async (req, res) => {
-  const { userId, conditionId } = req.params;
+  const userId = req.user.id;
+  const { conditionId } = req.params;
 
   try {
     const condition = await Condition.findOne({ _id: conditionId, user: userId });

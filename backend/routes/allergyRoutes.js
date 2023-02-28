@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middlewares/auth');
 const {
   getAllAllergiesForUser,
   getSpecificAllergyForUser,
@@ -9,18 +10,18 @@ const {
 } = require('../controllers/allergyController');
 
 // Get all allergies for a given user
-router.get('/', getAllAllergiesForUser);
+router.get('/', verifyTokenAndAuthorization, getAllAllergiesForUser);
 
 // Get a specific allergy for a given user
-router.get('/:allergyId', getSpecificAllergyForUser);
+router.get('/:allergyId', verifyTokenAndAuthorization, getSpecificAllergyForUser);
 
 // Create a new allergy for a given user
-router.post('/', createAllergyForUser);
+router.post('/', verifyTokenAndAuthorization, createAllergyForUser);
 
 // Update a specific allergy for a given user
-router.patch('/:allergyId', updateSpecificAllergyForUser);
+router.patch('/:allergyId', verifyTokenAndAuthorization, updateSpecificAllergyForUser);
 
 // Delete a specific allergy for a given user
-router.delete('/:allergyId', deleteSpecificAllergyForUser);
+router.delete('/:allergyId', verifyTokenAndAuthorization, deleteSpecificAllergyForUser);
 
 module.exports = router;

@@ -1,9 +1,10 @@
 const Allergy = require("../models/allergyModel");
+const User = require('../models/userModel');
 
 // Get all allergies for a given user
 const getAllAllergiesForUser = async (req, res) => {
   try {
-    const allergies = await Allergy.find({ user: req.params.userId });
+    const allergies = await Allergy.find({ user: req.user.id });
     res.status(200).json(allergies);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -13,7 +14,7 @@ const getAllAllergiesForUser = async (req, res) => {
 // Get a specific allergy for a given user
 const getSpecificAllergyForUser = async (req, res) => {
   try {
-    const allergy = await Allergy.findOne({ _id: req.params.allergyId, user: req.params.userId });
+    const allergy = await Allergy.findOne({ _id: req.params.allergyId, user: req.user.id });
     if (!allergy) {
       return res.status(404).json({ message: 'Allergy not found' });
     }
@@ -26,15 +27,21 @@ const getSpecificAllergyForUser = async (req, res) => {
 // Create a new allergy for a given user
 const createAllergyForUser = async (req, res) => {
   const allergy = new Allergy({
-    user: req.params.userId,
+    user: req.user.id,
     name: req.body.name,
-    severity: req.body.severity,
-    dateDiagnosed: req.body.dateDiagnosed,
-    notes: req.body.notes,
+    description: req.body.description
   });
 
   try {
     const newAllergy = await allergy.save();
+
+    // once allergy is created, let's add ID to the user profile
+    const user = await User.findById(req.user.id);
+    user.allergies.push(newAllergy._id);
+
+    await user.save();
+
+
     res.status(201).json(newAllergy);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -44,15 +51,13 @@ const createAllergyForUser = async (req, res) => {
 // Update a specific allergy for a given user
 const updateSpecificAllergyForUser = async (req, res) => {
   try {
-    const allergy = await Allergy.findOne({ _id: req.params.allergyId, user: req.params.userId });
+    const allergy = await Allergy.findOne({ _id: req.params.allergyId, user: req.user.id });
     if (!allergy) {
       return res.status(404).json({ message: 'Allergy not found' });
     }
 
     allergy.name = req.body.name;
-    allergy.severity = req.body.severity;
-    allergy.dateDiagnosed = req.body.dateDiagnosed;
-    allergy.notes = req.body.notes;
+    allergy.description = req.body.description;
 
     const updatedAllergy = await allergy.save();
     res.status(200).json(updatedAllergy);
@@ -64,7 +69,7 @@ const updateSpecificAllergyForUser = async (req, res) => {
 // Delete a specific allergy for a given user
 const deleteSpecificAllergyForUser = async (req, res) => {
   try {
-    const allergy = await Allergy.findOne({ _id: req.params.allergyId, user: req.params.userId });
+    const allergy = await Allergy.findOne({ _id: req.params.allergyId, user: req.user.id });
     if (!allergy) {
       return res.status(404).json({ message: 'Allergy not found' });
     }

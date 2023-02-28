@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middlewares/auth');
+
 const {
   createEmergencyContact,
   getAllEmergencyContacts,
@@ -9,18 +11,18 @@ const {
 } = require('../controllers/emergencycontactController');
 
 // Create new emergency contact
-router.post('/:userId', createEmergencyContact);
+router.post('/', verifyTokenAndAuthorization, createEmergencyContact);
 
 // Get all emergency contacts for a specific user
-router.get('/:userId', getAllEmergencyContacts);
+router.get('/', verifyTokenAndAuthorization, getAllEmergencyContacts);
 
 // Get single emergency contact
-router.get('/:contactId', getEmergencyContact);
+router.get('/:contactId', verifyTokenAndAuthorization, getEmergencyContact);
 
 // Update emergency contact
-router.put('/:contactId', updateEmergencyContact);
+router.put('/:contactId', verifyTokenAndAuthorization, updateEmergencyContact);
 
 // Delete emergency contact
-router.delete('/:contactId', deleteEmergencyContact);
+router.delete('/:contactId', verifyTokenAndAuthorization, deleteEmergencyContact);
 
 module.exports = router;

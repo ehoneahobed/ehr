@@ -1,10 +1,11 @@
 const Transfusion = require('../models/transfusionModel');
+const User = require('../models/userModel');
 
 // Create a new transfusion
 const createTransfusion = async (req, res) => {
   try {
     const transfusion = new Transfusion({
-      user: req.body.user,
+      user: req.user.id,
       date: req.body.date,
       location: req.body.location,
       blood_type: req.body.blood_type,
@@ -15,6 +16,12 @@ const createTransfusion = async (req, res) => {
     });
 
     const savedTransfusion = await transfusion.save();
+
+    // once transfusion is created, let's add ID to the user profile
+    const user = await User.findById(req.user.id);
+    user.transfusions.push(savedTransfusion._id);
+    await user.save();
+
     res.status(201).json(savedTransfusion);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -24,7 +31,7 @@ const createTransfusion = async (req, res) => {
 // Get all transfusions for a user
 const getAllTransfusions = async (req, res) => {
   try {
-    const transfusions = await Transfusion.find({ user: req.params.userId });
+    const transfusions = await Transfusion.find({ user: req.user.id });
     res.json(transfusions);
   } catch (error) {
     res.status(500).json({ message: error.message });

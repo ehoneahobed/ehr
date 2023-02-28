@@ -1,11 +1,19 @@
 const EmergencyContact = require('../models/emergencycontactModel');
+const User = require('../models/userModel');
 
 // Create new emergency contact
 exports.createEmergencyContact = async (req, res) => {
   try {
     const emergencyContact = new EmergencyContact(req.body);
-    emergencyContact.user = req.params.userId;
+    emergencyContact.user = req.user.id;
     await emergencyContact.save();
+
+    // once contact is created, let's add ID to the user profile
+    const user = await User.findById(req.user.id);
+    user.emergencyContacts.push(emergencyContact._id);
+
+    await user.save();
+
     res.status(201).json(emergencyContact);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -16,7 +24,7 @@ exports.createEmergencyContact = async (req, res) => {
 exports.getAllEmergencyContacts = async (req, res) => {
   try {
     const emergencyContacts = await EmergencyContact.find({
-      user: req.params.userId
+      user: req.user.id
     });
     res.status(200).json(emergencyContacts);
   } catch (err) {

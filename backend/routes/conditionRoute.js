@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middlewares/auth');
 
 const {
   createCondition,
@@ -12,18 +13,18 @@ const {
 // /users/:userId/conditions
 
 // Create a new condition
-router.post('/', createCondition);
+router.post('/', verifyTokenAndAuthorization, createCondition);
 
 // Get all conditions for a user
-router.get('/', getAllConditions);
+router.get('/', verifyTokenAndAuthorization, getAllConditions);
 
 // Get a single condition for a user
-router.get('/:conditionId', getConditionById);
+router.get('/:conditionId', verifyTokenAndAuthorization, getConditionById);
 
 // Update a condition
-router.put('/:conditionId', updateCondition);
+router.put('/:conditionId', verifyTokenAndAuthorization, updateCondition);
 
 // Delete a condition
-router.delete('/:conditionId', deleteCondition);
+router.delete('/:conditionId', verifyTokenAndAuthorization, deleteCondition);
 
 module.exports = router;

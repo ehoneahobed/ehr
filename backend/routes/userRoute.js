@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { createUser, loginUser, getUserProfile, updateUserProfile, deleteUser } = require('../controllers/userController');
-const auth = require('../middlewares/auth');
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middlewares/auth');
 
 // Create user
 router.post('/', createUser);
@@ -10,12 +10,12 @@ router.post('/', createUser);
 router.post('/login', loginUser);
 
 // Get user profile
-router.get('/profile', getUserProfile);
+router.get('/profile', verifyTokenAndAuthorization, getUserProfile);
 
 // Update user profile
-router.put('/profile', updateUserProfile);
+router.put('/profile', verifyTokenAndAuthorization, updateUserProfile);
 
 // Delete user
-router.delete('/profile',  deleteUser);
+router.delete('/profile', verifyTokenAndAuthorization, deleteUser);
 
 module.exports = router;
