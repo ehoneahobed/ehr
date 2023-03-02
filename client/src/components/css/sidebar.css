@@ -1,0 +1,8 @@
+nav {
+    background-color: var(--color-primary-lite);
+    padding: 2rem;
+}
+
+nav > ul li {
+    padding: 1.2rem 0rem;
+}

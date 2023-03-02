@@ -36,10 +36,24 @@ exports.createUser = async (req, res) => {
   }
 };
 
+
 // Get user profile
 exports.getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+// Get entire user profile
+exports.getUserDetail = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password')
+    .populate('emergencyContacts healthConditions insurances allergies vaccinations transfusions beliefs')
+    .exec();
     res.json(user);
   } catch (err) {
     console.error(err);

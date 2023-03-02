@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['patient', 'health professional', 'admin']
+    enum: ['patient', 'health professional', 'admin'],
+    default: 'patient'
   },
   name: {
     type: String
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema({
   }],
   healthConditions: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'HealthCondition'
+    ref: 'Condition'
   }],
   insurances: [{
     type: mongoose.Schema.Types.ObjectId,

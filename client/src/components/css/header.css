@@ -1,0 +1,6 @@
+header {
+    background-color: var(--color-primary);
+    padding: 0.8rem;
+    color: var(--color-white);
+    font-size: 0.725rem;
+}
