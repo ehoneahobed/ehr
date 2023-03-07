@@ -31,7 +31,7 @@ form {
   padding-top: 2rem;
 }
 
-input {
+input, textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;

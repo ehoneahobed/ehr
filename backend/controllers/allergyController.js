@@ -42,7 +42,7 @@ const createAllergyForUser = async (req, res) => {
     await user.save();
 
 
-    res.status(201).json(newAllergy);
+    res.status(201).json({msg: "Allergy record successfully added"});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
@@ -13,8 +13,13 @@ const Logout = () => {
         navigate('/login');
       }
 
+    useEffect(() => {
+      handleLogout();
+    }, []);
+
   return (
-    <button onClick={handleLogout}>Logout</button>
+    // <button onClick={handleLogout}>Logout</button>
+    <></>
   )
 }
 

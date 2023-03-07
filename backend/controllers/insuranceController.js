@@ -23,7 +23,7 @@ exports.createInsurance = async (req, res) => {
 exports.getAllInsurance = async (req, res) => {
   try {
     const insurance = await Insurance.find({ user: req.user.id });
-    res.status(200).json({ insurance });
+    res.status(200).json(insurance);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

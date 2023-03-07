@@ -1,6 +1,15 @@
-.App__content{
+/* .App__content{
 	width: 85%;
 	margin: 0rem auto;
     margin-top: 3rem;
+} */
+
+.container {
+  width: 85%;
+  margin: 0rem auto;
 }
 
+
+.main {
+	margin-top: 3rem;
+}

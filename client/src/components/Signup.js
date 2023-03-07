@@ -6,6 +6,7 @@ import { URL } from "../App";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from "./Header";
 
 function Signup() {
   const [fullName, setFullName] = useState("");
@@ -53,7 +54,9 @@ function Signup() {
     }
   };
   return (
-    <div className="signup">
+    <>
+    <Header/>
+    <div className="signup container">
       <section className="signup__left">
         <div className="signup__left-top">
           <h1>Register an Account</h1>
@@ -114,6 +117,7 @@ function Signup() {
         <img src="/images/signup.png" alt="Signup" />
       </section>
     </div>
+    </>
   );
 }
 

@@ -1,0 +1,84 @@
+.Insurance__left {
+    width: 20vw;
+    height: 90vh;
+}
+
+.Insurance__right {
+    width: 80vw;
+    display: flex;
+}
+
+.Insurance {
+    display: flex;
+}
+
+.Insurance__right-60 {
+    width: 60vw;
+    margin-right: 1rem;
+}
+
+.Insurance__right-40 form h3{
+ padding-bottom: 2rem;
+}
+
+.Insurance__right-60 table {
+    border-collapse: collapse;
+    width: 100%;
+    /* margin-right: 2rem; */
+  }
+  
+  .Insurance__right-60 th,
+  .Insurance__right-60 td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .Insurance__right-60 th {
+    background-color: #f2f2f2;
+  }
+  
+  .Insurance__right-60 tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .Insurance__right-60 .actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  .allergy-table button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .Insurance__table {
+    width: 40vw;
+    margin-top: 1rem;
+  }
+  
+  .Insurance__table button {
+    padding: 0.5rem;
+    margin-right: 0.2rem;
+    cursor: pointer;
+
+  }
+
+  .Insurance__table button.edit {
+    background-color: #2196F3; 
+  }
+  
+  .Insurance__table button.delete {
+    background-color: #f44336; 
+  }
+  
