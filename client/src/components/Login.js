@@ -39,9 +39,10 @@ function Login() {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-      setError(error.message);
+      // console.log(error);
+      toast.error("Sorry, incorrect credentials provided!");
+      // setError(error.message);
+      setError("Sorry, incorrect credentials provided!");
     }
   };
   return (

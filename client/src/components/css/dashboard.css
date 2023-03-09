@@ -1,4 +1,67 @@
+.dashboard {
+    display: flex;
+}
 .dashboard__left {
     width: 20vw;
     height: 90vh;
+}
+
+.dashboard__right-main {
+    background-color: rgba(135, 0, 255, 0.05);
+    padding: 2rem;
+    width: 70vw;
+    margin-top: 1rem;
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 1rem;
+}
+
+.dashboard__main-left {
+    flex-basis: 30%;
+    padding: 2rem 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboard__main-left h4 {
+    font-size: 1.7rem;
+    color: blueviolet;
+}
+
+.dashboard__main-left p {
+    font-size: 1.2rem;
+}
+
+.dashboard__main-left span {
+    color: blueviolet;
+    font-weight: 700;
+}
+
+.dashboard__main-right {
+    flex-basis: 80%;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.dashboard__main-right article {
+    background-color: #fff;
+    padding: 2rem;
+    width: 100%;
+    max-width: 20rem;
+}
+
+.dashboard__main-right article div {
+    margin-bottom: 1rem;
+}
+
+.dashboard__main-right article div p {
+    color: red;
+}
+
+.dashboard__main-right article div h4 {
+    font-size: 1.5rem;
+    font-weight: 500;
 }

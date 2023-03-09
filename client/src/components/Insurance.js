@@ -126,7 +126,7 @@ const Insurance = () => {
         );
 
         if (response.status === 201) {
-          toast.success(response.data.msg);
+          toast.success("Insurance record added successfully!");
           // update the Insurance list
           await getInsurance(); // await the completion of getInsurance
           setProvider("");
